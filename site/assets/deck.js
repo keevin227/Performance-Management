@@ -6,6 +6,8 @@
   const slides = [...stage.querySelectorAll('.slide')];
   const count = document.getElementById('count');
   const bar = document.getElementById('bar');
+  const persian = document.documentElement.lang === 'fa';
+  if (persian) { document.getElementById('prev').textContent = '→'; document.getElementById('next').textContent = '←'; }
 
   const Deck = window.Deck = {
     W, H, scale: 1, dpr: Math.min(window.devicePixelRatio || 1, 2),
@@ -68,7 +70,7 @@
     const n = String(i + 1).padStart(2, '0'), total = String(slides.length).padStart(2, '0');
     count.textContent = `${n} / ${total}`;
     bar.style.width = `${((i + 1) / slides.length) * 100}%`;
-    document.title = `${slides[i].dataset.title || 'Merit'} · Merit`;
+    document.title = `${slides[i].dataset.title || (persian ? 'مِریت' : 'Merit')} · ${persian ? 'مِریت' : 'Merit'}`;
     if (push) history.replaceState(null, '', `#${i + 1}`);
   }
 
@@ -83,8 +85,8 @@
   addEventListener('keydown', e => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key;
-    if (['ArrowRight', 'PageDown', ' ', 'Enter', 'ArrowDown'].includes(k)) { e.preventDefault(); next(); }
-    else if (['ArrowLeft', 'PageUp', 'Backspace', 'ArrowUp'].includes(k)) { e.preventDefault(); prev(); }
+    if ([(persian ? 'ArrowLeft' : 'ArrowRight'), 'PageDown', ' ', 'Enter', 'ArrowDown'].includes(k)) { e.preventDefault(); next(); }
+    else if ([(persian ? 'ArrowRight' : 'ArrowLeft'), 'PageUp', 'Backspace', 'ArrowUp'].includes(k)) { e.preventDefault(); prev(); }
     else if (k === 'Home') go(0); else if (k === 'End') go(slides.length - 1, 99);
     else if (k === 'f' || k === 'F') fullscreen();
   });
@@ -93,14 +95,14 @@
   document.getElementById('fs').addEventListener('click', e => { e.stopPropagation(); fullscreen(); });
   document.getElementById('deck').addEventListener('click', e => {
     if (e.target.closest('.hud, a')) return;
-    (e.clientX < innerWidth * 0.3) ? prev() : next();
+    (persian ? e.clientX > innerWidth * 0.7 : e.clientX < innerWidth * 0.3) ? prev() : next();
   });
   let tx = null, ty = null;
   addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
   addEventListener('touchend', e => {
     if (tx === null) return;
     const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
-    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : prev(); }
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { (persian ? dx > 0 : dx < 0) ? next() : prev(); }
     tx = null;
   }, { passive: true });
 

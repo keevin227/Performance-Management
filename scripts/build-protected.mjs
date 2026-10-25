@@ -23,7 +23,7 @@ const html = readFileSync(join(site, 'index.html'), 'utf8');
 const read = p => readFileSync(join(site, p), 'utf8');
 
 const css = read('assets/style.css');
-const fonts = html.match(/<link href="https:\/\/fonts\.googleapis\.com[^>]+>/)[0];
+const fonts = [...html.matchAll(/<link href="https:\/\/fonts\.googleapis\.com[^>]+>/g)].map(m => m[0]).join('');
 const body = html.match(/<body>([\s\S]*?)<script/)[1].trim();
 const scripts = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map(m => read(m[1]));
 if (scripts.length < 4) throw new Error('Expected the deck scripts in site/index.html');

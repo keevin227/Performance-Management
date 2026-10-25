@@ -18,6 +18,8 @@ each band is as thick as the evidence for its layer.
 | `←` / click on the left third | previous |
 | `F` | fullscreen |
 
+The language control switches between English and Persian. Open `?lang=fa#4` for a Persian deep link; the selected language is remembered and switching preserves the slide. Persian horizontal keys and swipe follow right-to-left reading order.
+
 Run locally: `cd site && python3 -m http.server 8000`, then open http://localhost:8000.
 
 ### Password protection

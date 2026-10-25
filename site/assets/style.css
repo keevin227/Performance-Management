@@ -204,3 +204,43 @@ kbd { font-family: var(--mono); font-size: 13px; border: 1px solid var(--line); 
 .ptable td { padding: 18px 0; border-top: 1px solid var(--line); }
 .ptable tr.me td { font-weight: 600; border-top: 2px solid var(--ink); }
 .ptable tr.me td.serif { font-size: 32px; font-weight: 400; }
+
+/* Persian typography and reading direction; keep portrait/canvas coordinates unchanged. */
+html[lang="fa"] { --serif: "Vazirmatn", Tahoma, sans-serif; --sans: "Vazirmatn", Tahoma, sans-serif; --mono: "Vazirmatn", Tahoma, sans-serif; }
+html[lang="fa"] .slide { direction: rtl; text-align: right; }
+html[lang="fa"] h1.serif, html[lang="fa"] h2.serif, html[lang="fa"] .huge { letter-spacing: 0; line-height: 1.3; font-weight: 650; }
+html[lang="fa"] h1.serif { font-size: 155px; }
+html[lang="fa"] h2.serif { font-size: 52px; }
+html[lang="fa"] .huge { font-size: 76px !important; line-height: 1.35 !important; }
+html[lang="fa"] h2 i, html[lang="fa"] h1 i, html[lang="fa"] .lede i { font-style: normal; }
+html[lang="fa"] .kicker, html[lang="fa"] .src, html[lang="fa"] .illus, html[lang="fa"] .flag { letter-spacing: 0; text-transform: none; }
+html[lang="fa"] .title-copy { left: 110px; width: 690px; top: 235px; }
+html[lang="fa"] .title-copy h1 { margin-left: 0; }
+html[lang="fa"] .title-copy .lede { font-size: 31px; line-height: 1.5; }
+html[lang="fa"] .s-lies .kicker { left: auto !important; right: 150px; }
+html[lang="fa"] .head.center, html[lang="fa"] .wall-copy, html[lang="fa"] .huge { text-align: center; }
+html[lang="fa"] .head h2 { max-width: 1420px; }
+html[lang="fa"] .layers-head h2 { font-size: 48px; }
+html[lang="fa"] .layers-head .cap { line-height: 1.6; }
+html[lang="fa"] .lrow { direction: ltr; }
+html[lang="fa"] .lrow > div { direction: rtl; text-align: right; }
+html[lang="fa"] .lrow .srcs { direction: ltr; }
+html[lang="fa"] .engine-head h2 { direction: ltr; text-align: left; }
+html[lang="fa"] .engine-head h2 .step-w { direction: rtl; unicode-bidi: isolate; display: inline-block; }
+html[lang="fa"] .engine-head .cap { right: 0; left: auto; max-width: 1420px; }
+html[lang="fa"] .claim p, html[lang="fa"] .pcard p { font-size: 21px; line-height: 1.5; }
+html[lang="fa"] .acard h3, html[lang="fa"] .fcard h3, html[lang="fa"] .ocard h3 { font-size: 26px; line-height: 1.45; }
+html[lang="fa"] .acard p, html[lang="fa"] .fcard p, html[lang="fa"] .ocard p { line-height: 1.65; }
+html[lang="fa"] .hero-head h2 { right: 0; left: auto; }
+html[lang="fa"] .ogrid, html[lang="fa"] .fgrid, html[lang="fa"] .rgrid { direction: ltr; }
+html[lang="fa"] .ocard, html[lang="fa"] .fcard, html[lang="fa"] .rule { direction: rtl; text-align: right; }
+html[lang="fa"] .rule { grid-template-columns: 50px 1fr; direction: ltr; }
+html[lang="fa"] .rule p { font-size: 25px; line-height: 1.5; direction: rtl; text-align: right; }
+html[lang="fa"] .ptable { direction: rtl; }
+html[lang="fa"] .ptable th { text-align: right; letter-spacing: 0; text-transform: none; }
+html[lang="fa"] .ptable td { line-height: 1.5; }
+html[lang="fa"] .legal { left: 18px; right: 178px; text-align: right; }
+html[lang="fa"] .hud { direction: ltr; }
+html[lang="fa"] .count, html[lang="fa"] .srow b { direction: ltr; unicode-bidi: isolate; }
+.nav.lang { width: 39px; font-size: 13px; font-weight: 700; }
+.nav:focus-visible { outline: 2px solid var(--l5); outline-offset: 2px; }
