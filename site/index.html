@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merit</title>
+<meta name="description" content="Merit, the Talent Intelligence Engine: one person, seven layers of evidence.">
+<meta name="theme-color" content="#F4F1EA">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main class="deck" id="deck">
+<div class="stage" id="stage">
+
+<!-- 01 · TITLE ············································································ BUILT -->
+<section class="slide s-title" id="s-title" data-title="Merit">
+  <canvas class="cv" data-cv="title"></canvas>
+  <div class="title-copy">
+    <div class="kicker anim a1">Merit · Talent Intelligence Engine</div>
+    <h1 class="serif anim a2">Merit</h1>
+    <p class="lede serif anim a3">We don't rate people.<br><i>We understand them, layer by layer.</i></p>
+  </div>
+  <div class="press anim a5">Press <kbd>→</kbd> or click to begin</div>
+</section>
+
+<!-- TODO(slide 02 · Three confusions): see docs/HANDOFF.md -->
+
+<!-- 03 · SEVEN LAYERS ···································································· BUILT -->
+<section class="slide s-layers" id="s-layers" data-title="Seven layers" data-steps="8">
+  <canvas class="cv" data-cv="layers"></canvas>
+  <div class="layers-head">
+    <div class="kicker">The Merit Portrait</div>
+    <h2 class="serif">One person. <i>Seven layers.</i></h2>
+    <p class="cap" data-only="0">Every system sees a fragment of a person. Merit sees the whole person.</p>
+    <p class="cap" data-only="8">Each band is as thick as its evidence. Weak layers thin out; missing ones show as dots, never as zero.</p>
+  </div>
+  <div class="legend" id="legend"></div>
+</section>
+
+<!-- TODO(slide 04 · Psychometrics: describe, never decide): see docs/HANDOFF.md -->
+
+<!-- 05 · CLAIMS → EVIDENCE → CONTEXT ······················································ BUILT -->
+<section class="slide s-engine" id="s-engine" data-title="The engine" data-steps="3">
+  <canvas class="cv" data-cv="engine"></canvas>
+  <div class="engine-head">
+    <div class="kicker">The Talent Context Engine</div>
+    <h2 class="serif"><span class="step-w" data-w="1">Claims</span> <em>→</em> <span class="step-w" data-w="2">Evidence</span> <em>→</em> <span class="step-w" data-w="3">Context</span></h2>
+    <p class="cap" data-only="0">Everything said about a person is a claim, until the systems back it up.</p>
+    <p class="cap" data-only="1">Claims come from the interview, the employee's own voice and the manager's voice.</p>
+    <p class="cap" data-only="2">Evidence comes from the work itself, with a receipt for every link.</p>
+    <p class="cap" data-only="3">Every performance tool grades the person. <b>Merit grades the evidence and checks the system first.</b></p>
+  </div>
+
+  <div class="claim" style="top:300px" data-f="1" data-layer="prehire">
+    <span class="src">Interview · Pre-hire</span>
+    <p>“Senior-level system design.”</p>
+    <span class="verdict ok" data-f="2">Supported</span>
+  </div>
+  <div class="claim" style="top:450px" data-f="1" data-layer="voice">
+    <span class="src">Weekly voice note · Employee</span>
+    <p>“I shipped the billing migration this week.”</p>
+    <span class="verdict ok" data-f="2">Supported</span>
+  </div>
+  <div class="claim" style="top:600px" data-f="1" data-layer="review">
+    <span class="src">Tap &amp; Speak · Manager</span>
+    <p>“Slow on deliverables this quarter.”</p>
+    <span class="verdict warn swap-a" data-f="2">Underperforming?</span>
+    <span class="verdict sys swap-b" data-f="3">Blocked by the system</span>
+  </div>
+
+  <div class="evidence" style="top:300px" data-f="2">
+    <span class="src"><i class="logo xs" data-logo="github"></i>Design reviews</span>
+    <p>Event pipeline design · 3 RFCs approved by staff engineers</p>
+  </div>
+  <div class="evidence" style="top:450px" data-f="2">
+    <span class="src"><i class="logo xs" data-logo="github"></i><i class="logo xs" data-logo="jira"></i>Code &amp; tickets</span>
+    <p>PR #2181 merged · BILL-412 closed · migration live in production</p>
+  </div>
+  <div class="evidence" style="top:600px" data-f="2">
+    <span class="src"><i class="logo xs" data-logo="jira"></i>Commitments</span>
+    <p>4 of 9 commitments late this quarter</p>
+  </div>
+
+  <div class="context" data-f="3">
+    <span class="src">Context check</span>
+    <p>Blocked <b>9 days</b> waiting on the payments API team · on call for <b>2 urgent incidents</b></p>
+  </div>
+  <div class="illus">Illustrative data</div>
+</section>
+
+<!-- TODO(slide 06 · The algorithms around the engine): see docs/HANDOFF.md -->
+<!-- TODO(slide 07 · Fairness Guard audits the evaluator): see docs/HANDOFF.md -->
+
+<!-- 08 · SILENT HERO ······································································ BUILT -->
+<section class="slide s-hero" id="s-hero" data-title="The Silent Hero" data-steps="2">
+  <div class="hero-head">
+    <div class="kicker">Silent Hero Detector</div>
+    <h2 class="serif cap" data-only="0">Who is your best performer?</h2>
+    <h2 class="serif cap" data-only="1">Now add the layer <i>most tools can't see.</i></h2>
+    <h2 class="serif cap" data-only="2">Meet Lena.</h2>
+  </div>
+  <canvas class="cv" data-cv="hero"></canvas>
+  <div class="team" id="team"></div>
+  <div class="hero-note" data-f="2">
+    <span class="tag">Collaboration layer</span>
+    <p>An average ticket count. She <b>unblocked 14 teammates</b> and resolved <b>3 incidents</b> this quarter, and none of it was in her review.</p>
+  </div>
+  <div class="illus">Illustrative data</div>
+</section>
+
+<!-- TODO(slide 09 · Outputs: Dossier, 1:1 Card, Tap & Speak, Drafted Review, Staffing, My Mirror): see docs/HANDOFF.md -->
+<!-- TODO(slide 10 · Tap & Speak in 7 minutes): see docs/HANDOFF.md -->
+<!-- TODO(slide 11 · Hiring Calibration Loop): see docs/HANDOFF.md -->
+<!-- TODO(slide 12 · Trust rules): see docs/HANDOFF.md -->
+<!-- TODO(slide 13 · Positioning): see docs/HANDOFF.md -->
+
+<!-- 14 · THE WALL (finale) ································································ BUILT -->
+<section class="slide s-wall" id="s-wall" data-title="Long live evidence" data-steps="1">
+  <canvas class="cv" data-cv="wall"></canvas>
+  <div class="wall-veil" data-f="1"></div>
+  <div class="wall-copy" data-f="1">
+    <h2 class="serif huge">Performance reviews are dead.</h2>
+    <p class="serif lede"><i>Long live evidence.</i></p>
+    <div class="sign"><b class="serif">Merit</b><span>Talent Intelligence Engine</span></div>
+  </div>
+</section>
+
+</div>
+
+<nav class="hud" aria-label="Slide navigation">
+  <button class="nav prev" id="prev" type="button" aria-label="Previous">←</button>
+  <div class="count" id="count">01</div>
+  <button class="nav next" id="next" type="button" aria-label="Next">→</button>
+  <button class="nav fs" id="fs" type="button" aria-label="Fullscreen" title="Fullscreen (F)">⤢</button>
+</nav>
+<div class="progress"><i id="bar"></i></div>
+<div class="legal">Logos are trademarks of their respective owners and illustrate example integrations.</div>
+</main>
+
+<script src="assets/icons.js"></script>
+<script src="assets/deck.js"></script>
+<script src="assets/portrait.js"></script>
+<script src="assets/scenes.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Merit</title>
+<meta name="theme-color" content="#F4F1EA">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style id="gate-css">
+  :root { --bg: #F4F1EA; --panel: #FBF9F4; --line: #D9D2C3; --text: #16140F; --muted: #6B665B; --gold: #16140F; --vi: #3F6DB0; --red: #C4553B; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); }
+  body { font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  .serif { font-family: "Instrument Serif", "Iowan Old Style", Georgia, serif; font-weight: 400; }
+  .gate { min-height: 100%; display: grid; place-items: center; padding: 24px 16px;
+    background: var(--bg); }
+  .box { width: 100%; max-width: 420px; text-align: center; }
+  .mark { width: 72px; height: 72px; margin: 0 auto 24px; }
+  .kicker { font: 500 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: 72px; line-height: 1; margin: 10px 0 10px; }
+  p.sub { color: var(--muted); font-size: 15px; margin-bottom: 30px; }
+  form { display: flex; gap: 8px; }
+  input { flex: 1; min-width: 0; height: 50px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--panel); color: var(--text); font-size: 16px; outline: none; }
+  input:focus { border-color: var(--vi); box-shadow: 0 0 0 3px rgba(63,109,176,.15); }
+  button { height: 50px; padding: 0 22px; border: 0; border-radius: 12px; font: 650 15px/1 inherit; font-family: inherit;
+    color: #F4F1EA; background: var(--gold); cursor: pointer; }
+  button:disabled { opacity: .6; cursor: progress; }
+  .msg { min-height: 22px; margin-top: 14px; font-size: 14px; color: var(--muted); }
+  .msg.err { color: var(--red); }
+  .shake { animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+</style>
+</head>
+<body>
+<div class="gate" id="gate">
+  <div class="box">
+    <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke-width="2"><path stroke="#B0507A" d="M4 62V50c0-10 7-16 16-17-4-3-7-8-7-14a19 19 0 0 1 38 0c0 6-3 11-7 14 9 1 16 7 16 17v12"/><path stroke="#3F6DB0" d="M9 62V51c0-8 6-13 13-14-4-3-6-7-6-12a16 16 0 0 1 32 0c0 5-2 9-6 12 7 1 13 6 13 14v11"/><path stroke="#C4553B" d="M14 62v-9c0-6 4-10 10-11-3-3-5-6-5-10a13 13 0 0 1 26 0c0 4-2 7-5 10 6 1 10 5 10 11v9"/></g><circle cx="32" cy="23" r="8" fill="#16140F"/><path d="M19 62v-6c0-6 4-10 10-10h6c6 0 10 4 10 10v6z" fill="#16140F"/></svg>
+    <div class="kicker">Private preview</div>
+    <h1 class="serif">Merit</h1>
+    <p class="sub">Enter the password to open the presentation.</p>
+    <form id="form" autocomplete="off">
+      <input id="pw" type="password" placeholder="Password" aria-label="Password" autofocus required>
+      <button id="go" type="submit">Enter</button>
+    </form>
+    <div class="msg" id="msg" role="status"></div>
+  </div>
+</div>
+<script id="payload" type="application/json">__PAYLOAD__</script>
+<script>
+(() => {
+  const data = JSON.parse(document.getElementById('payload').textContent);
+  const form = document.getElementById('form'), pw = document.getElementById('pw');
+  const go = document.getElementById('go'), msg = document.getElementById('msg');
+  const KEY = 'merit-deck-key';
+  const u8 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+  const store = {
+    get() { try { return sessionStorage.getItem(KEY); } catch { return null; } },
+    set(v) { try { sessionStorage.setItem(KEY, v); } catch { /* private mode: ask again next time */ } },
+    clear() { try { sessionStorage.removeItem(KEY); } catch { } },
+  };
+
+  async function deriveKey(password) {
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: u8(data.salt), iterations: data.iter },
+      base, { name: 'AES-GCM', length: 256 }, true, ['decrypt']);
+  }
+  async function open(key) {
+    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: u8(data.iv) }, key, u8(data.ct));
+    return JSON.parse(new TextDecoder().decode(plain));
+  }
+  function mount(deck) {
+    document.getElementById('gate').remove();
+    document.getElementById('gate-css').remove();
+    document.getElementById('payload').remove();
+    document.head.insertAdjacentHTML('beforeend', deck.head);
+    document.body.insertAdjacentHTML('afterbegin', deck.body);
+    for (const code of deck.scripts) {
+      const s = document.createElement('script');
+      s.textContent = code;
+      document.body.appendChild(s);
+    }
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    go.disabled = true; msg.className = 'msg'; msg.textContent = 'Unlocking…';
+    try {
+      const key = await deriveKey(pw.value);
+      const deck = await open(key);
+      store.set(b64(await crypto.subtle.exportKey('raw', key)));
+      mount(deck);
+    } catch {
+      go.disabled = false; msg.className = 'msg err'; msg.textContent = 'Wrong password.';
+      form.classList.remove('shake'); void form.offsetWidth; form.classList.add('shake');
+      pw.select();
+    }
+  });
+
+  // Same tab, already unlocked: skip the prompt on reload.
+  const saved = store.get();
+  if (saved) {
+    crypto.subtle.importKey('raw', u8(saved), 'AES-GCM', false, ['decrypt'])
+      .then(open).then(mount).catch(() => store.clear());
+  }
+})();
+</script>
+</body>
+</html>
