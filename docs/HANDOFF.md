@@ -11,7 +11,7 @@ slides so they match. Keep quality equal to the built slides: check every slide 
 | `site/assets/scenes.js` | Canvas scenes per slide, using the `scene(id, setup)` helper. |
 | `site/assets/deck.js` | Navigation, fragments, scaling, hash links. Generic; no changes needed. |
 | `site/assets/style.css` | Tokens and the styles of every slide. |
-| `site/index.html` | Slides. Built: 01 Title, 03 Seven layers, 05 Claims→Evidence→Context, 08 Silent Hero, 14 Wall finale. |
+| `site/index.html` | Slides. All 14 slides are built. |
 
 Remaining slides go where `<!-- TODO(slide NN · …) -->` comments sit in `site/index.html`, in that order.
 

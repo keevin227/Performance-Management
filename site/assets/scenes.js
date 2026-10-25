@@ -202,3 +202,32 @@
     };
   });
 })();
+
+/* ---------- remaining slides with small portrait scenes ---------- */
+(() => {
+  const Deck = window.Deck, M = window.Merit, L = M.LAYERS;
+  const ease = v => 1 - Math.pow(1 - Math.max(0, Math.min(1, v)), 3);
+  function mini(id, draw) {
+    const slide = document.getElementById(id); if (!slide) return;
+    const cv = slide.querySelector('canvas.cv'), ctx = cv.getContext('2d');
+    let k = 1, t0 = 0, last = -1e9, step = 0;
+    Deck.onResize(() => { k = Deck.fit(cv, 1600, 900); });
+    Deck.onStep(slide, s => { step = s; });
+    Deck.render(slide, t => {
+      if (t - last > 300) t0 = t; last = t;
+      ctx.setTransform(k, 0, 0, k, 0, 0); ctx.clearRect(0, 0, 1600, 900);
+      draw(ctx, t, (t - t0) / 1000, step);
+    });
+  }
+  const P1 = new M.Portrait({ bases: [0.85, 0.6, 0.7, 0.8, 0.7, 0.6, 0.65], seed: 7, N: 160 });
+  mini('s-psych', (ctx, t, el) => P1.draw(ctx, 800, 520, 480, { t, highlight: 0, dim: 0.15, reveal: L.map((_, i) => ease((el - i * 0.15) / 0.9)) }));
+  const P2 = new M.Portrait({ bases: [0.7, 0.75, 0.7, 0.8, 0.8, 0.65, 0.7], seed: 12, N: 160 });
+  mini('s-algos', (ctx, t, el, s) => P2.draw(ctx, 800, 540, 460, { t, reveal: L.map((_, i) => ease((el - i * 0.15) / 0.9)),
+    highlight: s ? [[1], [4], [2], [6], [0], [5]][s - 1] : null, dim: 0.2 }));
+  const team = Array.from({ length: 12 }, (_, j) => new M.Portrait({ bases: L.map((_, i) => 0.3 + ((j * 7 + i * 13) % 10) / 14), seed: 300 + j, N: 80 }));
+  mini('s-tap', (ctx, t, el) => team.forEach((P, j) => {
+    const x = 160 + (j % 4) * 200, y = 330 + Math.floor(j / 4) * 190, active = j === 5;
+    P.draw(ctx, x, y, active ? 210 : 170, { t: active ? t : 0, tip: false, opacity: active ? 1 : 0.5,
+      reveal: L.map((_, i) => ease((el - j * 0.05 - i * 0.1) / 0.7)), highlight: active ? 4 : null, dim: 0.5 });
+  }));
+})();
